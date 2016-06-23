@@ -41,6 +41,9 @@ namespace COMP2007_S2016_MidTerm_200307232
                 // bind the result to the GridView
                 TodoGridView.DataSource = Todos.AsQueryable().OrderBy(SortString).ToList();
                 TodoGridView.DataBind();
+                
+                
+                
             }
         }
 
@@ -48,9 +51,9 @@ namespace COMP2007_S2016_MidTerm_200307232
         {
             // Set the new Page size
             TodoGridView.PageSize = Convert.ToInt32(PageSizeDropDownList.SelectedValue);
-
+          
             // refresh the grid
-            this.GetTodos();
+           this.GetTodos();
         }
 
         protected void TodoGridView_RowDeleting(object sender, GridViewDeleteEventArgs e)
@@ -126,6 +129,32 @@ namespace COMP2007_S2016_MidTerm_200307232
                         }
                     }
                 }
+            }
+        }
+
+        protected void CheckBoxComplete_CheckedChanged(object sender, EventArgs e)
+        {
+            
+            CheckBox Complete = (CheckBox)sender;
+            int TodoID = Convert.ToInt32( Complete.ToolTip.ToString());
+
+            // use EF to find the selected todo in the DB and remove it
+            using (TodoConnection db = new TodoConnection())
+            {
+                // create object of the todo class and store the query string inside of it
+                Todo updatedtodo = (from studentRecords in db.Todos
+                                    where studentRecords.TodoID == TodoID
+                                    select studentRecords).FirstOrDefault();
+
+                if(Complete.Checked==true)
+                updatedtodo.Completed = true;
+                else
+                updatedtodo.Completed = false;
+                // save my changes back to the database
+                db.SaveChanges();
+
+                // refresh the grid
+                this.GetTodos();
             }
         }
     }
