@@ -7,6 +7,16 @@ using System.Web.UI.WebControls;
 // using statements required for EF DB access
 using COMP2007_S2016_MidTerm_200307232.Models;
 using System.Web.ModelBinding;
+
+/*
+* @File name : Todo Details page 
+* @Author : Ritesh Patel (200307232)
+* @Website name : MidTerm(http://comp2007-s2016-midterm-200307232.azurewebsites.net/)
+* @File description : This is Todo details page which allows to update and add.
+* 
+* 
+*/
+
 namespace COMP2007_S2016_MidTerm_200307232
 {
     public partial class TodoDetails : System.Web.UI.Page
@@ -18,7 +28,14 @@ namespace COMP2007_S2016_MidTerm_200307232
                 this.GetTodo();
             }
         }
-
+        /**
+      * <summary>
+      * This method gets the todo data from the DB
+      * </summary>
+      * 
+      * @method GetTodo
+      * @returns {void}
+      */
         private void GetTodo()
         {
             // populate teh form with existing data from the database
@@ -32,7 +49,7 @@ namespace COMP2007_S2016_MidTerm_200307232
                                           where todo.TodoID == TodoID
                                           select todo).FirstOrDefault();
 
-                // map the student properties to the form controls
+                // map the todo properties to the form controls
                 if (updatedTodo != null)
                 {
                     TodoNameTextBox.Text = updatedTodo.TodoName;
@@ -41,13 +58,31 @@ namespace COMP2007_S2016_MidTerm_200307232
                 }
             }
         }
-
+        /**
+    * <summary>
+    * This event handler cancel from and redirect to todolists
+    * </summary>
+    * 
+    * @method CancelButton_Click
+    * @param {object} sender
+    * @param {EventArgs} e
+    * @returns {void}
+    */
         protected void CancelButton_Click(object sender, EventArgs e)
         {
             // Redirect back to Students page
             Response.Redirect("~/TodoList.aspx");
         }
-
+        /**
+    * <summary>
+    * This event handler allow to add or update record
+    * </summary>
+    * 
+    * @method SaveButton_Click
+    * @param {object} sender
+    * @param {EventArgs} e
+    * @returns {void}
+    */
         protected void SaveButton_Click(object sender, EventArgs e)
         {
             // Use EF to connect to the server
@@ -77,7 +112,7 @@ namespace COMP2007_S2016_MidTerm_200307232
                     newTodo.Completed = true;
                 else
                     newTodo.Completed = false;
-                // use LINQ to ADO.NET to add / insert new student into the database
+                // use LINQ to ADO.NET to add / insert new todo into the database
 
                 if (TodoID == 0)
                 {

@@ -9,7 +9,14 @@ using System.Web.UI.WebControls;
 using COMP2007_S2016_MidTerm_200307232.Models;
 using System.Web.ModelBinding;
 using System.Linq.Dynamic;
-
+/*
+* @File name : Todo List page 
+* @Author : Ritesh Patel (200307232)
+* @Website name : MidTerm(http://comp2007-s2016-midterm-200307232.azurewebsites.net/)
+* @File description : This is Todo list page which allows pagging, deleting and sorting .
+* 
+* 
+*/
 namespace COMP2007_S2016_MidTerm_200307232
 {
     public partial class TodoList : System.Web.UI.Page
@@ -26,7 +33,14 @@ namespace COMP2007_S2016_MidTerm_200307232
                 this.GetTodos();
             }
         }
-
+        /**
+      * <summary>
+      * This method gets the todos data from the DB
+      * </summary>
+      * 
+      * @method GetTodos
+      * @returns {void}
+      */
         private void GetTodos()
         {
             // connect to EF
@@ -41,12 +55,21 @@ namespace COMP2007_S2016_MidTerm_200307232
                 // bind the result to the GridView
                 TodoGridView.DataSource = Todos.AsQueryable().OrderBy(SortString).ToList();
                 TodoGridView.DataBind();
-                
-                
+
+                LabelCount.Text = Todos.Count().ToString();
                 
             }
         }
-
+        /**
+    * <summary>
+    * This event handler allow to change gridview page size
+    * </summary>
+    * 
+    * @method PageSizeDropDownList_SelectedIndexChanged
+    * @param {object} sender
+    * @param {EventArgs} e
+    * @returns {void}
+    */
         protected void PageSizeDropDownList_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Set the new Page size
@@ -55,7 +78,16 @@ namespace COMP2007_S2016_MidTerm_200307232
             // refresh the grid
            this.GetTodos();
         }
-
+        /**
+    * <summary>
+    * This event handler allow to deleting record
+    * </summary>
+    * 
+    * @method TodoGridView_RowDeleting
+    * @param {object} sender
+    * @param {GridViewDeleteEventArgs} e
+    * @returns {void}
+    */
         protected void TodoGridView_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             // store which row was clicked
@@ -82,7 +114,16 @@ namespace COMP2007_S2016_MidTerm_200307232
                 this.GetTodos();
             }
         }
-
+        /**
+            * <summary>
+            * This event handler allow to change pagging
+            * </summary>
+            * 
+            * @method TodoGridView_PageIndexChanging
+            * @param {object} sender
+            * @param {GridViewPageEventArgs} e
+            * @returns {void}
+            */
         protected void TodoGridView_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             // Set the new page number
@@ -91,7 +132,16 @@ namespace COMP2007_S2016_MidTerm_200307232
             // refresh the grid
             this.GetTodos();
         }
-
+        /**
+    * <summary>
+    * This event handler allows to sorting
+    * </summary>
+    * 
+    * @method TodoGridView_Sorting
+    * @param {object} sender
+    * @param {GridViewSortEventArgs} e
+    * @returns {void}
+    */
         protected void TodoGridView_Sorting(object sender, GridViewSortEventArgs e)
         {
             // get the column to sorty by
@@ -103,7 +153,16 @@ namespace COMP2007_S2016_MidTerm_200307232
             // toggle the direction
             Session["SortDirection"] = Session["SortDirection"].ToString() == "ASC" ? "DESC" : "ASC";
         }
-
+        /**
+    * <summary>
+    * This event handler bind link button acordding sorting direction
+    * </summary>
+    * 
+    * @method TodoGridView_RowDataBound
+    * @param {object} sender
+    * @param {GridViewRowEventArgs} e
+    * @returns {void}
+    */
         protected void TodoGridView_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (IsPostBack)
@@ -131,7 +190,16 @@ namespace COMP2007_S2016_MidTerm_200307232
                 }
             }
         }
-
+        /**
+    * <summary>
+    * This event handler Shows pop-up box with game name and description
+    * </summary>
+    * 
+    * @method lbGame_Click
+    * @param {object} sender
+    * @param {EventArgs} e
+    * @returns {void}
+    */
         protected void CheckBoxComplete_CheckedChanged(object sender, EventArgs e)
         {
             
